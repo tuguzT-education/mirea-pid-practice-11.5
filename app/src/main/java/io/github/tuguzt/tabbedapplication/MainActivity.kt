@@ -3,6 +3,7 @@ package io.github.tuguzt.tabbedapplication
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.tabs.TabLayoutMediator
 import io.github.tuguzt.tabbedapplication.ui.main.SectionsPagerAdapter
 import io.github.tuguzt.tabbedapplication.databinding.ActivityMainBinding
 
@@ -16,9 +17,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
+        val sectionsPagerAdapter = SectionsPagerAdapter(this)
         binding.viewPager.adapter = sectionsPagerAdapter
-        binding.tabs.setupWithViewPager(binding.viewPager)
+        TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
+            tab.text = getString(SectionsPagerAdapter.TAB_TITLES[position])
+        }.attach()
 
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

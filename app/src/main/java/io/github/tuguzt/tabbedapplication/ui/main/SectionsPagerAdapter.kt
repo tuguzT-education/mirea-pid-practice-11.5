@@ -1,39 +1,25 @@
-@file:Suppress("DEPRECATION")
-
 package io.github.tuguzt.tabbedapplication.ui.main
 
-import android.content.Context
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import io.github.tuguzt.tabbedapplication.R
 
 /**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
+ * A [FragmentStateAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
-    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class SectionsPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
     companion object {
-        private val TAB_TITLES = arrayOf(
+        val TAB_TITLES = arrayOf(
             R.string.tab_text_1,
             R.string.tab_text_2,
         )
     }
 
-    override fun getItem(position: Int): Fragment {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1)
-    }
+    override fun getItemCount(): Int = TAB_TITLES.size
 
-    override fun getPageTitle(position: Int): CharSequence {
-        return context.resources.getString(TAB_TITLES[position])
-    }
-
-    override fun getCount(): Int {
-        // Show 2 total pages.
-        return 2
-    }
+    override fun createFragment(position: Int): Fragment =
+        PlaceholderFragment.newInstance(position + 1)
 }
